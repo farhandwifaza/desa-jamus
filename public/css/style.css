@@ -1,0 +1,56 @@
+:root {
+  --brand-green: #2f6f4e;
+  --brand-sand: #f5f1e8;
+  --brand-dark: #1f2b24;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(180deg, var(--brand-sand), #ffffff 40%);
+  color: var(--brand-dark);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.hero {
+  background: linear-gradient(120deg, rgba(47, 111, 78, 0.15), rgba(47, 111, 78, 0.05));
+  border-radius: 16px;
+  padding: 3rem 2rem;
+}
+
+.section-title {
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+.card {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(31, 43, 36, 0.08);
+}
+
+.card-img-top {
+  height: 180px;
+  object-fit: cover;
+  background: #e4efe7;
+}
+
+.footer {
+  background: var(--brand-green);
+  color: #ffffff;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+}
+
+.placeholder-box {
+  background: #e4efe7;
+  border-radius: 12px;
+  height: 200px;
+}
+
+.page-section {
+  padding: 2.5rem 0;
+}
