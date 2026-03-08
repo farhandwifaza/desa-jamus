@@ -73,39 +73,14 @@ function renderPerangkat(items) {
     .join("");
 }
 
-// Render weather card (for example, on the home page).
-function renderWeather(data) {
-  const container = document.getElementById("weather-card");
-  if (!container) {
-    return;
-  }
-
-  if (!data || !data.main || !data.weather || !data.weather[0]) {
-    container.innerHTML = "<p class=\"text-muted\">Data cuaca belum tersedia.</p>";
-    return;
-  }
-
-  const temp = Math.round(data.main.temp);
-  const city = data.name || "Lokasi";
-  const description = data.weather[0].description || "";
-
-  container.innerHTML = `
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Cuaca ${city}</h5>
-        <p class="display-6 mb-0">${temp}&deg;C</p>
-        <p class="text-muted">${description}</p>
-      </div>
-    </div>
-  `;
-}
-
 // Load news data from the backend and render cards.
 async function loadBerita() {
   try {
     const data = await fetchJson("/api/berita");
+    console.log("API response:", data);
     renderBerita(data);
   } catch (error) {
+    console.error("API error:", error);
     const container = document.getElementById("berita-list");
     if (container) {
       container.innerHTML = "<p class=\"text-danger\">Gagal memuat data dari server.</p>";
@@ -117,22 +92,11 @@ async function loadBerita() {
 async function loadPerangkat() {
   try {
     const data = await fetchJson("/api/perangkat");
+    console.log("API response:", data);
     renderPerangkat(data);
   } catch (error) {
+    console.error("API error:", error);
     const container = document.getElementById("perangkat-list");
-    if (container) {
-      container.innerHTML = "<p class=\"text-danger\">Gagal memuat data dari server.</p>";
-    }
-  }
-}
-
-// Load weather data from the backend and render card.
-async function loadWeather() {
-  try {
-    const data = await fetchJson("/api/weather");
-    renderWeather(data);
-  } catch (error) {
-    const container = document.getElementById("weather-card");
     if (container) {
       container.innerHTML = "<p class=\"text-danger\">Gagal memuat data dari server.</p>";
     }
@@ -142,5 +106,4 @@ async function loadWeather() {
 document.addEventListener("DOMContentLoaded", () => {
   loadBerita();
   loadPerangkat();
-  loadWeather();
 });
