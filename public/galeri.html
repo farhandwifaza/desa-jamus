@@ -38,32 +38,10 @@
     </nav>
 
     <main class="container page-section">
-      <h1 class="section-title mb-4">Galeri Desa</h1>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-img-top placeholder-box"></div>
-            <div class="card-body">
-              <p class="card-text">Kegiatan gotong royong warga.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-img-top placeholder-box"></div>
-            <div class="card-body">
-              <p class="card-text">Panen raya di lahan pertanian.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-img-top placeholder-box"></div>
-            <div class="card-body">
-              <p class="card-text">Festival budaya tahunan desa.</p>
-            </div>
-          </div>
-        </div>
+      <h1 class="section-title mb-2">Data Galeri Desa (API Supabase)</h1>
+      <p class="text-muted mb-4">Galeri ditarik dari tabel Supabase.</p>
+      <div class="row g-4" id="galeri-list">
+        <p class="text-muted">Loading data...</p>
       </div>
     </main>
 
@@ -74,5 +52,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>

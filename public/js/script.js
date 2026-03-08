@@ -9,6 +9,13 @@ async function fetchJson(endpoint) {
   return response.json();
 }
 
+function setError(containerId) {
+  const container = document.getElementById(containerId);
+  if (container) {
+    container.innerHTML = "<p class=\"text-danger\">Failed to load API data.</p>";
+  }
+}
+
 // Render news cards on the Berita page.
 function renderBerita(items) {
   const container = document.getElementById("berita-list");
@@ -17,7 +24,7 @@ function renderBerita(items) {
   }
 
   if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = "<p class=\"text-muted\">Belum ada berita.</p>";
+    container.innerHTML = "<p class=\"text-muted\">Tidak ada data berita.</p>";
     return;
   }
 
@@ -49,7 +56,7 @@ function renderPerangkat(items) {
   }
 
   if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = "<p class=\"text-muted\">Data perangkat belum tersedia.</p>";
+    container.innerHTML = "<p class=\"text-muted\">Tidak ada data perangkat.</p>";
     return;
   }
 
@@ -73,6 +80,72 @@ function renderPerangkat(items) {
     .join("");
 }
 
+// Render gallery cards on the Galeri page.
+function renderGaleri(items) {
+  const container = document.getElementById("galeri-list");
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = "<p class=\"text-muted\">Tidak ada data galeri.</p>";
+    return;
+  }
+
+  container.innerHTML = items
+    .map((item) => {
+      const title = item.judul || item.title || "Judul belum tersedia";
+      const desc = item.deskripsi || item.description || "Deskripsi belum tersedia";
+      const image = item.gambar_url || item.image_url || "";
+      const imageBlock = image
+        ? `<img src="${image}" class="card-img-top" alt="${title}" />`
+        : `<div class="card-img-top placeholder-box"></div>`;
+
+      return `
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            ${imageBlock}
+            <div class="card-body">
+              <h5 class="card-title">${title}</h5>
+              <p class="card-text">${desc}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+// Render profile cards on the Profil page.
+function renderProfil(items) {
+  const container = document.getElementById("profil-list");
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = "<p class=\"text-muted\">Tidak ada data profil.</p>";
+    return;
+  }
+
+  container.innerHTML = items
+    .map((item) => {
+      const title = item.judul || item.title || "Judul belum tersedia";
+      const body = item.isi || item.content || "Konten belum tersedia";
+      return `
+        <div class="col-lg-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">${title}</h5>
+              <p class="card-text">${body}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
 // Load news data from the backend and render cards.
 async function loadBerita() {
   try {
@@ -81,10 +154,7 @@ async function loadBerita() {
     renderBerita(data);
   } catch (error) {
     console.error("API error:", error);
-    const container = document.getElementById("berita-list");
-    if (container) {
-      container.innerHTML = "<p class=\"text-danger\">Gagal memuat data dari server.</p>";
-    }
+    setError("berita-list");
   }
 }
 
@@ -96,14 +166,57 @@ async function loadPerangkat() {
     renderPerangkat(data);
   } catch (error) {
     console.error("API error:", error);
-    const container = document.getElementById("perangkat-list");
-    if (container) {
-      container.innerHTML = "<p class=\"text-danger\">Gagal memuat data dari server.</p>";
-    }
+    setError("perangkat-list");
+  }
+}
+
+// Load gallery data from the backend and render cards.
+async function loadGaleri() {
+  try {
+    const data = await fetchJson("/api/galeri");
+    console.log("API response:", data);
+    renderGaleri(data);
+  } catch (error) {
+    console.error("API error:", error);
+    setError("galeri-list");
+  }
+}
+
+// Load profile data from the backend and render cards.
+async function loadProfil() {
+  try {
+    const data = await fetchJson("/api/profil");
+    console.log("API response:", data);
+    renderProfil(data);
+  } catch (error) {
+    console.error("API error:", error);
+    setError("profil-list");
+  }
+}
+
+// Check API status on the home page.
+async function loadApiStatus() {
+  const statusEl = document.getElementById("api-status");
+  if (!statusEl) {
+    return;
+  }
+
+  try {
+    const data = await fetchJson("/api/perangkat");
+    console.log("API response:", data);
+    statusEl.className = "alert alert-success";
+    statusEl.textContent = "API Status: Connected";
+  } catch (error) {
+    console.error("API error:", error);
+    statusEl.className = "alert alert-danger";
+    statusEl.textContent = "API Status: Failed";
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   loadBerita();
   loadPerangkat();
+  loadGaleri();
+  loadProfil();
+  loadApiStatus();
 });
