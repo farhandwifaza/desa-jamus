@@ -83,6 +83,13 @@ app.get("/api/profil", async (req, res) => {
   }
 });
 
+// Public config endpoint for frontend usage.
+app.get("/api/config", (req, res) => {
+  res.json({
+    weatherApiKey: process.env.WEATHER_API_KEY || ""
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

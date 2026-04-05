@@ -10,10 +10,10 @@
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+  <body id="top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="index.html">Desa Jamus</a>
+        <a class="navbar-brand" href="#top">Desa Jamus</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -27,11 +27,9 @@
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="profil.html">Profil</a></li>
-            <li class="nav-item"><a class="nav-link" href="berita.html">Berita</a></li>
-            <li class="nav-item"><a class="nav-link" href="galeri.html">Galeri</a></li>
-            <li class="nav-item"><a class="nav-link" href="perangkat.html">Perangkat</a></li>
-            <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Desa</a></li>
+            <li class="nav-item"><a class="nav-link" href="#galeri">Galeri Desa</a></li>
+            <li class="nav-item"><a class="nav-link" href="#umkm">UMKM</a></li>
           </ul>
         </div>
       </div>
@@ -87,66 +85,95 @@
         </div>
       </section>
 
-      <section class="section-slab">
+      <section id="tentang" class="section-slab">
         <div class="container">
           <div class="section-heading">
+<<<<<<< HEAD
             <h2>Ringkasan Profil Desa</h2>
             <p>Profil desanya sebagai berikut.</p>
+=======
+            <h2>Tentang Desa Jamus</h2>
+            <p>Deskripsi singkat dan profil Desa Jamus.</p>
+>>>>>>> cd6cae1 (add map weather clock for desa jamus)
           </div>
-          <div class="row g-4" id="profil-list">
-            <p class="text-muted">Loading data...</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-slab section-grid">
-        <div class="container">
           <div class="row g-4">
-            <div class="col-lg-7">
-              <div class="section-heading">
-                <h2>Peta Lokasi Desa Jamus</h2>
-                <p>Lokasi koordinat: -7.8159, 110.1335</p>
-              </div>
-              <div class="map-card" id="map-container">
-                <p class="text-muted">Loading data...</p>
-              </div>
+            <div class="col-lg-8" id="about-content">
+              <p class="text-muted">Loading data...</p>
             </div>
-            <div class="col-lg-5">
-              <div class="section-heading">
-                <h2>Cuaca Terkini Desa Jamus</h2>
-                <p>Informasi cuaca real-time dari OpenWeather.</p>
-              </div>
-              <div id="weather-card">
-                <p class="text-muted">Loading data...</p>
-              </div>
-              <div class="clock-card mt-4">
-                <div class="section-heading mb-2">
-                  <h2>Waktu Lokal</h2>
-                  <p>Zona waktu Asia/Jakarta</p>
+            <div class="col-lg-4">
+              <div class="card h-100 card-soft">
+                <div class="card-body">
+                  <span class="badge badge-label">Ringkas</span>
+                  <h5 class="card-title mt-3">Profil Singkat</h5>
+                  <p class="card-text">
+                    Desa Jamus berada di wilayah pegunungan yang asri dengan potensi wisata,
+                    pertanian, serta UMKM unggulan warga.
+                  </p>
                 </div>
-                <div class="clock-time" id="clock-time">--:--:--</div>
-                <div class="clock-date" id="clock-date">Loading...</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section-slab">
+      <section id="info-desa" class="section-slab section-grid">
         <div class="container">
           <div class="section-heading">
+<<<<<<< HEAD
             <h2>Berita Desa</h2>
             <p>Update terbaru dari kegiatan dan informasi desa.</p>
+=======
+            <h2>Informasi Desa Jamus</h2>
+            <p>Peta lokasi, cuaca terkini, dan waktu lokal.</p>
+>>>>>>> cd6cae1 (add map weather clock for desa jamus)
           </div>
-          <div class="row g-4" id="berita-list">
-            <p class="text-muted">Loading data...</p>
+          <div class="row g-4">
+            <div class="col-lg-4">
+              <div class="card h-100 card-soft">
+                <div class="card-body">
+                  <div class="section-heading mb-3">
+                    <h2>Peta Lokasi</h2>
+                    <p>Koordinat: -7.8159, 110.1335</p>
+                  </div>
+                  <div class="map-card" id="map-container">
+                    <p class="text-muted">Loading data...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card h-100 card-soft">
+                <div class="card-body">
+                  <div class="section-heading mb-3">
+                    <h2>Cuaca Terkini</h2>
+                    <p>Update dari OpenWeather.</p>
+                  </div>
+                  <div id="weather-card">
+                    <p class="text-muted">Loading data...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card h-100 card-soft">
+                <div class="card-body">
+                  <div class="section-heading mb-3">
+                    <h2>Waktu Lokal</h2>
+                    <p>Zona waktu Asia/Jakarta</p>
+                  </div>
+                  <div class="clock-time" id="clock-time">--:--:--</div>
+                  <div class="clock-date" id="clock-date">Loading...</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="section-slab section-accent">
+      <section id="galeri" class="section-slab">
         <div class="container">
           <div class="section-heading">
+<<<<<<< HEAD
             <h2>Data Perangkat Desa</h2>
             <p>Struktur perangkat desa yang terhubung ke database.</p>
           </div>
@@ -159,11 +186,57 @@
       <section class="section-slab">
         <div class="container">
           <div class="section-heading">
+=======
+>>>>>>> cd6cae1 (add map weather clock for desa jamus)
             <h2>Galeri Desa</h2>
             <p>Dokumentasi kegiatan warga dan potensi desa.</p>
           </div>
           <div class="row g-4" id="galeri-list">
             <p class="text-muted">Loading data...</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="umkm" class="section-slab section-accent">
+        <div class="container">
+          <div class="section-heading">
+            <h2>UMKM Desa</h2>
+            <p>Produk unggulan warga yang siap berkembang bersama.</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 card-soft hover-lift">
+                <div class="card-body">
+                  <span class="badge badge-label">Kuliner</span>
+                  <h5 class="card-title mt-3">Olahan Singkong Jamus</h5>
+                  <p class="card-text">
+                    Produk camilan khas desa yang dibuat dengan bahan lokal pilihan.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 card-soft hover-lift">
+                <div class="card-body">
+                  <span class="badge badge-label">Kerajinan</span>
+                  <h5 class="card-title mt-3">Anyaman Bambu</h5>
+                  <p class="card-text">
+                    Kerajinan tangan tradisional dengan desain modern untuk pasar wisata.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 card-soft hover-lift">
+                <div class="card-body">
+                  <span class="badge badge-label">Pertanian</span>
+                  <h5 class="card-title mt-3">Hasil Tani Segar</h5>
+                  <p class="card-text">
+                    Sayur dan buah dari lahan warga yang dipanen setiap hari.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

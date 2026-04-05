@@ -3,18 +3,43 @@ const DESA_COORDS = { lat: -7.8159, lon: 110.1335 };
 
 // Small helper to get JSON from the backend.
 async function fetchJson(endpoint) {
+  console.log("Fetching:", endpoint);
   const response = await fetch(`${API_BASE}${endpoint}`);
+  const data = await response.json().catch(() => null);
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
+    throw new Error(data?.error || data?.message || `Request failed: ${response.status}`);
   }
-  return response.json();
+  return data;
 }
 
-function setError(containerId) {
+function setListState(containerId, html) {
   const container = document.getElementById(containerId);
   if (container) {
-    container.innerHTML = "<p class=\"text-danger\">Failed to load API data.</p>";
+    container.innerHTML = `<div class="col-12">${html}</div>`;
   }
+}
+
+function setBlockState(containerId, html) {
+  const container = document.getElementById(containerId);
+  if (container) {
+    container.innerHTML = html;
+  }
+}
+
+function setListLoading(containerId, message = "Memuat data...") {
+  setListState(containerId, `<div class="loading-state">${message}</div>`);
+}
+
+function setListError(containerId, message = "Gagal memuat data. Silakan coba lagi.") {
+  setListState(containerId, `<div class="error-state">${message}</div>`);
+}
+
+function setBlockLoading(containerId, message = "Memuat data...") {
+  setBlockState(containerId, `<div class="loading-state">${message}</div>`);
+}
+
+function setBlockError(containerId, message = "Gagal memuat data. Silakan coba lagi.") {
+  setBlockState(containerId, `<div class="error-state">${message}</div>`);
 }
 
 function setApiStatus(ok) {
@@ -27,14 +52,14 @@ function setApiStatus(ok) {
 }
 
 // Render news cards on the Berita page.
-function renderBerita(items) {
-  const container = document.getElementById("berita-list");
+function renderBerita(items, containerId = "berita-list") {
+  const container = document.getElementById(containerId);
   if (!container) {
     return;
   }
 
   if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = "<p class=\"text-muted\">Tidak ada data berita.</p>";
+    setListState(containerId, "<div class=\"text-muted\">Tidak ada data berita.</div>");
     return;
   }
 
@@ -45,10 +70,10 @@ function renderBerita(items) {
       const body = item.isi || item.content || "Konten belum tersedia";
       return `
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 card-soft">
+          <div class="card h-100 card-soft hover-lift">
             <div class="card-body">
-              <span class="badge badge-soft">Supabase</span>
-              <h5 class="card-title mt-2">${title}</h5>
+              <span class="badge badge-label">Supabase</span>
+              <h5 class="card-title mt-3">${title}</h5>
               <p class="text-muted small mb-2">${date}</p>
               <p class="card-text">${body}</p>
             </div>
@@ -67,7 +92,7 @@ function renderPerangkat(items) {
   }
 
   if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = "<p class=\"text-muted\">Tidak ada data perangkat.</p>";
+    setListState("perangkat-list", "<div class=\"text-muted\">Tidak ada data perangkat.</div>");
     return;
   }
 
@@ -78,10 +103,10 @@ function renderPerangkat(items) {
       const info = item.deskripsi || item.description || "Informasi belum tersedia";
       return `
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 card-soft">
+          <div class="card h-100 card-soft hover-lift">
             <div class="card-body">
-              <span class="badge badge-soft">Supabase</span>
-              <h5 class="card-title mt-2">${name}</h5>
+              <span class="badge badge-label">Supabase</span>
+              <h5 class="card-title mt-3">${name}</h5>
               <p class="text-muted">${role}</p>
               <p class="card-text">${info}</p>
             </div>
@@ -93,33 +118,34 @@ function renderPerangkat(items) {
 }
 
 // Render gallery cards on the Galeri page.
-function renderGaleri(items) {
-  const container = document.getElementById("galeri-list");
+function renderGaleri(items, containerId = "galeri-list", limit) {
+  const container = document.getElementById(containerId);
   if (!container) {
     return;
   }
 
   if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = "<p class=\"text-muted\">Tidak ada data galeri.</p>";
+    setListState(containerId, "<div class=\"text-muted\">Tidak ada data galeri.</div>");
     return;
   }
 
-  container.innerHTML = items
+  const list = typeof limit === "number" ? items.slice(0, limit) : items;
+  container.innerHTML = list
     .map((item) => {
       const title = item.judul || item.title || "Judul belum tersedia";
       const desc = item.deskripsi || item.description || "Deskripsi belum tersedia";
       const image = item.gambar_url || item.image_url || "";
       const imageBlock = image
-        ? `<img src="${image}" class="card-img-top" alt="${title}" />`
-        : `<div class="card-img-top placeholder-box"></div>`;
+        ? `<img src="${image}" class="gallery-image" alt="${title}" loading="lazy" />`
+        : `<div class="media-placeholder"></div>`;
 
       return `
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 card-soft">
+          <div class="card h-100 card-soft hover-lift">
             ${imageBlock}
             <div class="card-body">
-              <span class="badge badge-soft">Supabase</span>
-              <h5 class="card-title mt-2">${title}</h5>
+              <span class="badge badge-label">Supabase</span>
+              <h5 class="card-title mt-3">${title}</h5>
               <p class="card-text">${desc}</p>
             </div>
           </div>
@@ -137,7 +163,7 @@ function renderProfil(items) {
   }
 
   if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = "<p class=\"text-muted\">Tidak ada data profil.</p>";
+    setListState("profil-list", "<div class=\"text-muted\">Tidak ada data profil.</div>");
     return;
   }
 
@@ -147,10 +173,10 @@ function renderProfil(items) {
       const body = item.isi || item.content || "Konten belum tersedia";
       return `
         <div class="col-lg-6">
-          <div class="card h-100 card-soft">
+          <div class="card h-100 card-soft hover-lift">
             <div class="card-body">
-              <span class="badge badge-soft">Supabase</span>
-              <h5 class="card-title mt-2">${title}</h5>
+              <span class="badge badge-label">Supabase</span>
+              <h5 class="card-title mt-3">${title}</h5>
               <p class="card-text">${body}</p>
             </div>
           </div>
@@ -160,6 +186,57 @@ function renderProfil(items) {
     .join("");
 }
 
+function renderProfilHighlights(items) {
+  const container = document.getElementById("profil-highlight");
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+
+  const highlights = items.slice(0, 3);
+  container.innerHTML = highlights
+    .map((item) => {
+      const title = item.judul || item.title || "Informasi";
+      const body = item.isi || item.content || "Konten belum tersedia";
+      return `
+        <div class="col-md-4">
+          <div class="card h-100 card-soft">
+            <div class="card-body">
+              <span class="badge badge-label">Ringkas</span>
+              <h6 class="mt-3">${title}</h6>
+              <p class="mb-0">${body}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderAboutSection(items) {
+  const container = document.getElementById("about-content");
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = "<p class=\"text-muted\">Profil desa belum tersedia.</p>";
+    return;
+  }
+
+  const first = items[0];
+  const title = first.judul || first.title || "Tentang Desa Jamus";
+  const body = first.isi || first.content || "Konten profil belum tersedia.";
+  container.innerHTML = `
+    <h5 class="mb-2">${title}</h5>
+    <p class="text-muted">${body}</p>
+  `;
+}
+
 function renderWeather(data) {
   const container = document.getElementById("weather-card");
   if (!container) {
@@ -167,7 +244,7 @@ function renderWeather(data) {
   }
 
   if (!data || !data.main || !data.weather || !data.weather[0]) {
-    container.innerHTML = "<p class=\"text-muted\">Data cuaca belum tersedia.</p>";
+    setBlockState("weather-card", "<div class=\"text-muted\">Data cuaca belum tersedia.</div>");
     return;
   }
 
@@ -181,7 +258,7 @@ function renderWeather(data) {
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
           <h5 class="card-title mb-0">${temp}&deg;C</h5>
-          <span class="badge badge-soft">OpenWeather</span>
+          <span class="badge badge-label">OpenWeather</span>
         </div>
         <p class="text-muted mt-2">${description}</p>
         <div class="weather-grid">
@@ -206,8 +283,7 @@ function loadMap() {
   }
 
   const { lat, lon } = DESA_COORDS;
-  const bbox = `${lon - 0.02},${lat - 0.02},${lon + 0.02},${lat + 0.02}`;
-  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`;
+  const src = `https://www.google.com/maps?q=${lat},${lon}&hl=id&z=14&output=embed`;
 
   container.innerHTML = `
     <iframe
@@ -225,13 +301,17 @@ async function loadWeather() {
     return;
   }
 
-  const apiKey = window.WEATHER_API_KEY;
-  if (!apiKey) {
-    container.innerHTML = "<p class=\"text-danger\">WEATHER_API_KEY belum diisi.</p>";
-    return;
-  }
+  setBlockLoading("weather-card", "Memuat cuaca terkini...");
 
   try {
+    const config = await fetchJson("/api/config");
+    const apiKey = config?.weatherApiKey;
+
+    if (!apiKey) {
+      setBlockError("weather-card", "WEATHER_API_KEY belum diisi di server.");
+      return;
+    }
+
     const { lat, lon } = DESA_COORDS;
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=id`;
     const response = await fetch(url);
@@ -244,7 +324,7 @@ async function loadWeather() {
     renderWeather(data);
   } catch (error) {
     console.error("Weather API error:", error);
-    container.innerHTML = "<p class=\"text-danger\">Failed to load API data.</p>";
+    setBlockError("weather-card", "Gagal memuat data cuaca.");
   }
 }
 
@@ -282,51 +362,104 @@ function startClock() {
 
 // Load news data from the backend and render cards.
 async function loadBerita() {
+  if (!document.getElementById("berita-list")) {
+    return;
+  }
+
+  setListLoading("berita-list", "Memuat berita desa...");
+
   try {
     const data = await fetchJson("/api/berita");
-    console.log("API response:", data);
+    console.log("API response (/api/berita):", data);
     renderBerita(data);
   } catch (error) {
     console.error("API error:", error);
-    setError("berita-list");
+    setListError("berita-list", "Berita belum dapat dimuat.");
   }
 }
 
 // Load staff data from the backend and render cards.
 async function loadPerangkat() {
+  if (!document.getElementById("perangkat-list")) {
+    return;
+  }
+
+  setListLoading("perangkat-list", "Memuat perangkat desa...");
+
   try {
     const data = await fetchJson("/api/perangkat");
-    console.log("API response:", data);
+    console.log("API response (/api/perangkat):", data);
     renderPerangkat(data);
     setApiStatus(true);
   } catch (error) {
     console.error("API error:", error);
-    setError("perangkat-list");
+    setListError("perangkat-list", "Perangkat desa belum dapat dimuat.");
     setApiStatus(false);
   }
 }
 
 // Load gallery data from the backend and render cards.
 async function loadGaleri() {
+  if (!document.getElementById("galeri-list") && !document.getElementById("galeri-preview")) {
+    return;
+  }
+
+  if (document.getElementById("galeri-list")) {
+    setListLoading("galeri-list", "Memuat galeri desa...");
+  }
+
+  if (document.getElementById("galeri-preview")) {
+    setListLoading("galeri-preview", "Memuat galeri desa...");
+  }
+
   try {
     const data = await fetchJson("/api/galeri");
-    console.log("API response:", data);
-    renderGaleri(data);
+    console.log("API response (/api/galeri):", data);
+    if (document.getElementById("galeri-list")) {
+      renderGaleri(data, "galeri-list");
+    }
+    if (document.getElementById("galeri-preview")) {
+      renderGaleri(data, "galeri-preview", 6);
+    }
   } catch (error) {
     console.error("API error:", error);
-    setError("galeri-list");
+    if (document.getElementById("galeri-list")) {
+      setListError("galeri-list", "Galeri belum dapat dimuat.");
+    }
+    if (document.getElementById("galeri-preview")) {
+      setListError("galeri-preview", "Galeri belum dapat dimuat.");
+    }
   }
 }
 
 // Load profile data from the backend and render cards.
 async function loadProfil() {
+  if (!document.getElementById("profil-list") && !document.getElementById("about-content")) {
+    return;
+  }
+
+  if (document.getElementById("profil-list")) {
+    setListLoading("profil-list", "Memuat profil desa...");
+  }
+
+  if (document.getElementById("about-content")) {
+    setBlockLoading("about-content", "Memuat profil desa...");
+  }
+
   try {
     const data = await fetchJson("/api/profil");
-    console.log("API response:", data);
+    console.log("API response (/api/profil):", data);
     renderProfil(data);
+    renderProfilHighlights(data);
+    renderAboutSection(data);
   } catch (error) {
     console.error("API error:", error);
-    setError("profil-list");
+    if (document.getElementById("profil-list")) {
+      setListError("profil-list", "Profil desa belum dapat dimuat.");
+    }
+    if (document.getElementById("about-content")) {
+      setBlockError("about-content", "Profil desa belum dapat dimuat.");
+    }
   }
 }
 
