@@ -42,10 +42,22 @@ async function fetchSupabase(table) {
   return data;
 }
 
+async function fetchSupabaseWithFallback(tables) {
+  let lastError;
+  for (const table of tables) {
+    try {
+      return await fetchSupabase(table);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError || new Error("Database request failed");
+}
+
 // Supabase routes.
 app.get("/api/perangkat", async (req, res) => {
   try {
-    const data = await fetchSupabase("perangkat_desa");
+    const data = await fetchSupabaseWithFallback(["perangkat_desa", "perangkat"]);
     res.json(data);
   } catch (err) {
     console.error("Supabase error (/api/perangkat):", err);
@@ -75,7 +87,7 @@ app.get("/api/galeri", async (req, res) => {
 
 app.get("/api/profil", async (req, res) => {
   try {
-    const data = await fetchSupabase("profil_desa");
+    const data = await fetchSupabaseWithFallback(["profil_desa", "profil"]);
     res.json(data);
   } catch (err) {
     console.error("Supabase error (/api/profil):", err);
