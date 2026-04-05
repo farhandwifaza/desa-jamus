@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body id="top">
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top nav-bar">
       <div class="container">
-        <a class="navbar-brand" href="#top">Desa Jamus</a>
+        <a class="navbar-brand visually-hidden" href="#top">Desa Jamus</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -25,216 +25,147 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="mainNav">
-          <ul class="navbar-nav ms-auto">
+        <div class="collapse navbar-collapse justify-content-center" id="mainNav">
+          <ul class="navbar-nav nav-center">
             <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Desa</a></li>
             <li class="nav-item"><a class="nav-link" href="#galeri">Galeri Desa</a></li>
             <li class="nav-item"><a class="nav-link" href="#umkm">UMKM</a></li>
           </ul>
         </div>
+        <div class="nav-icons d-none d-lg-flex">
+          <span class="nav-icon"></span>
+          <span class="nav-icon"></span>
+        </div>
       </div>
     </nav>
 
     <main>
-      <section class="hero-section">
+      <section class="hero-simple">
         <div class="container">
-          <div class="row g-4 align-items-center">
-            <div class="col-lg-6">
-              <span class="eyebrow">Portal Resmi Desa</span>
-              <h1 class="hero-title">Dusun Jamus, pusat informasi warga dan pelayanan publik.</h1>
-              <p class="hero-subtitle">
-                Seputar Informasi mengenai Desa Jamus
-              </p>
-              <div class="d-flex flex-wrap gap-2">
-                <a href="profil.html" class="btn btn-primary">Lihat Profil Desa</a>
-                <a href="berita.html" class="btn btn-outline-dark">Baca Berita</a>
+          <p class="hero-eyebrow">Selamat Datang Di Website Resmi</p>
+          <h1 class="hero-title">Desa Jamus</h1>
+          <a href="#tentang" class="btn hero-button">Kenali Desa Kami</a>
+        </div>
+      </section>
+
+      <section id="tentang" class="section-block">
+        <div class="container text-center">
+          <h2 class="section-title">Tentang Desa Jamus</h2>
+          <p class="section-text">
+            Desa Jamus merupakan desa yang sejuk dengan kekuatan di sektor pertanian,
+            wisata alam, dan UMKM warga. Kami menjaga tradisi sambil terus berinovasi
+            untuk pelayanan publik yang lebih baik.
+          </p>
+          <div class="row g-4 justify-content-center info-cards">
+            <div class="col-md-4">
+              <div class="info-card">
+                <h5>Sejarah &amp; Visi Misi</h5>
+                <a href="#" class="btn info-button">Selengkapnya</a>
               </div>
-              <div class="status-pill" id="api-status">Loading data...</div>
             </div>
-            <div class="col-lg-6">
-              <div class="hero-card">
-                <div class="hero-card-header">
-                  <span>Ringkasan Cepat</span>
-                  <span class="badge bg-success-subtle text-success">Live</span>
-                </div>
-                <div class="hero-card-body">
-                  <div class="hero-stat">
-                    <h3>5.200</h3>
-                    <p>Penduduk</p>
-                  </div>
-                  <div class="hero-stat">
-                    <h3>450 Ha</h3>
-                    <p>Luas Wilayah</p>
-                  </div>
-                  <div class="hero-stat">
-                    <h3>UMKM</h3>
-                    <p>Ekonomi Kreatif</p>
-                  </div>
-                  <div class="hero-stat">
-                    <h3>Wisata</h3>
-                    <p>Alam dan Budaya</p>
-                  </div>
-                </div>
-                <div class="hero-card-footer">
-                  <span>Data Dummy belum Fix</span>
-                  <span class="dot"></span>
-                </div>
+            <div class="col-md-4">
+              <div class="info-card">
+                <h5>Potensi Desa</h5>
+                <a href="#" class="btn info-button">Selengkapnya</a>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="info-card">
+                <h5>Peta Lokasi</h5>
+                <a href="#" class="btn info-button">Selengkapnya</a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="tentang" class="section-slab">
-        <div class="container">
-          <div class="section-heading">
-<<<<<<< HEAD
-            <h2>Ringkasan Profil Desa</h2>
-            <p>Profil desanya sebagai berikut.</p>
-=======
-            <h2>Tentang Desa Jamus</h2>
-            <p>Deskripsi singkat dan profil Desa Jamus.</p>
->>>>>>> cd6cae1 (add map weather clock for desa jamus)
-          </div>
-          <div class="row g-4">
-            <div class="col-lg-8" id="about-content">
-              <p class="text-muted">Loading data...</p>
-            </div>
-            <div class="col-lg-4">
-              <div class="card h-100 card-soft">
-                <div class="card-body">
-                  <span class="badge badge-label">Ringkas</span>
-                  <h5 class="card-title mt-3">Profil Singkat</h5>
-                  <p class="card-text">
-                    Desa Jamus berada di wilayah pegunungan yang asri dengan potensi wisata,
-                    pertanian, serta UMKM unggulan warga.
-                  </p>
-                </div>
-              </div>
-            </div>
+      <section id="galeri" class="section-block section-muted">
+        <div class="container text-center">
+          <h2 class="section-title">Galeri Desa</h2>
+          <div class="gallery-strip">
+            <button class="nav-circle" aria-label="Galeri sebelumnya">&lt;</button>
+            <div class="gallery-pill">Foto Desa</div>
+            <div class="gallery-pill">Foto Desa</div>
+            <div class="gallery-pill">Foto Desa</div>
+            <button class="nav-circle" aria-label="Galeri berikutnya">&gt;</button>
           </div>
         </div>
       </section>
 
-      <section id="info-desa" class="section-slab section-grid">
-        <div class="container">
-          <div class="section-heading">
-<<<<<<< HEAD
-            <h2>Berita Desa</h2>
-            <p>Update terbaru dari kegiatan dan informasi desa.</p>
-=======
-            <h2>Informasi Desa Jamus</h2>
-            <p>Peta lokasi, cuaca terkini, dan waktu lokal.</p>
->>>>>>> cd6cae1 (add map weather clock for desa jamus)
-          </div>
-          <div class="row g-4">
-            <div class="col-lg-4">
-              <div class="card h-100 card-soft">
-                <div class="card-body">
-                  <div class="section-heading mb-3">
-                    <h2>Peta Lokasi</h2>
-                    <p>Koordinat: -7.8159, 110.1335</p>
-                  </div>
-                  <div class="map-card" id="map-container">
-                    <p class="text-muted">Loading data...</p>
-                  </div>
-                </div>
-              </div>
+      <section id="umkm" class="section-block">
+        <div class="container text-center">
+          <h2 class="section-title">UMKM</h2>
+          <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+              <div class="pill-card">UMKM 1</div>
             </div>
-            <div class="col-lg-4">
-              <div class="card h-100 card-soft">
-                <div class="card-body">
-                  <div class="section-heading mb-3">
-                    <h2>Cuaca Terkini</h2>
-                    <p>Update dari OpenWeather.</p>
-                  </div>
-                  <div id="weather-card">
-                    <p class="text-muted">Loading data...</p>
-                  </div>
-                </div>
-              </div>
+            <div class="col-md-4">
+              <div class="pill-card">UMKM 2</div>
             </div>
-            <div class="col-lg-4">
-              <div class="card h-100 card-soft">
-                <div class="card-body">
-                  <div class="section-heading mb-3">
-                    <h2>Waktu Lokal</h2>
-                    <p>Zona waktu Asia/Jakarta</p>
-                  </div>
-                  <div class="clock-time" id="clock-time">--:--:--</div>
-                  <div class="clock-date" id="clock-date">Loading...</div>
-                </div>
-              </div>
+            <div class="col-md-4">
+              <div class="pill-card">UMKM 3</div>
             </div>
           </div>
+          <a href="#produk-umkm" class="btn umkm-button">Selengkapnya</a>
         </div>
       </section>
 
-      <section id="galeri" class="section-slab">
-        <div class="container">
-          <div class="section-heading">
-<<<<<<< HEAD
-            <h2>Data Perangkat Desa</h2>
-            <p>Struktur perangkat desa yang terhubung ke database.</p>
-          </div>
-          <div class="row g-4" id="perangkat-list">
-            <p class="text-muted">Loading data...</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-slab">
-        <div class="container">
-          <div class="section-heading">
-=======
->>>>>>> cd6cae1 (add map weather clock for desa jamus)
-            <h2>Galeri Desa</h2>
-            <p>Dokumentasi kegiatan warga dan potensi desa.</p>
-          </div>
-          <div class="row g-4" id="galeri-list">
-            <p class="text-muted">Loading data...</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="umkm" class="section-slab section-accent">
-        <div class="container">
-          <div class="section-heading">
-            <h2>UMKM Desa</h2>
-            <p>Produk unggulan warga yang siap berkembang bersama.</p>
-          </div>
-          <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-              <div class="card h-100 card-soft hover-lift">
-                <div class="card-body">
-                  <span class="badge badge-label">Kuliner</span>
-                  <h5 class="card-title mt-3">Olahan Singkong Jamus</h5>
-                  <p class="card-text">
-                    Produk camilan khas desa yang dibuat dengan bahan lokal pilihan.
-                  </p>
-                </div>
+      <section id="produk-umkm" class="section-block section-muted">
+        <div class="container text-center">
+          <h2 class="section-title">Produk UMKM</h2>
+          <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 1</div>
+                <button class="btn umkm-detail">Detail umkm</button>
               </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="card h-100 card-soft hover-lift">
-                <div class="card-body">
-                  <span class="badge badge-label">Kerajinan</span>
-                  <h5 class="card-title mt-3">Anyaman Bambu</h5>
-                  <p class="card-text">
-                    Kerajinan tangan tradisional dengan desain modern untuk pasar wisata.
-                  </p>
-                </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 2</div>
+                <button class="btn umkm-detail">Detail umkm</button>
               </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="card h-100 card-soft hover-lift">
-                <div class="card-body">
-                  <span class="badge badge-label">Pertanian</span>
-                  <h5 class="card-title mt-3">Hasil Tani Segar</h5>
-                  <p class="card-text">
-                    Sayur dan buah dari lahan warga yang dipanen setiap hari.
-                  </p>
-                </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 3</div>
+                <button class="btn umkm-detail">Detail umkm</button>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 4</div>
+                <button class="btn umkm-detail">Detail umkm</button>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 5</div>
+                <button class="btn umkm-detail">Detail umkm</button>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 6</div>
+                <button class="btn umkm-detail">Detail umkm</button>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 7</div>
+                <button class="btn umkm-detail">Detail umkm</button>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 8</div>
+                <button class="btn umkm-detail">Detail umkm</button>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="umkm-card">
+                <div class="umkm-card-title">UMKM 9</div>
+                <button class="btn umkm-detail">Detail umkm</button>
               </div>
             </div>
           </div>
@@ -251,10 +182,6 @@
       </div>
     </footer>
 
-    <script>
-      // Provide the OpenWeather key at build time (example: replace with real key).
-      window.WEATHER_API_KEY = "";
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
   </body>
