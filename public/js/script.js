@@ -217,6 +217,44 @@ function renderProfilHighlights(items) {
     .join("");
 }
 
+function renderTentangSection(items) {
+  const textEl = document.getElementById("about-text");
+  const cardsEl = document.getElementById("tentang-cards");
+  if (!textEl && !cardsEl) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    if (textEl) {
+      textEl.textContent = "Profil desa belum tersedia.";
+    }
+    return;
+  }
+
+  const main = items[0];
+  const body = main.isi || main.content || "Informasi desa belum tersedia.";
+  if (textEl) {
+    textEl.textContent = body;
+  }
+
+  if (cardsEl) {
+    const cards = items.slice(0, 3);
+    cardsEl.innerHTML = cards
+      .map((item) => {
+        const title = item.judul || item.title || "Informasi";
+        return `
+          <div class="col-md-4">
+            <div class="info-card">
+              <h5>${title}</h5>
+              <a href="#" class="btn info-button">Selengkapnya</a>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+  }
+}
+
 function renderAboutSection(items) {
   const container = document.getElementById("about-content");
   if (!container) {
@@ -235,6 +273,86 @@ function renderAboutSection(items) {
     <h5 class="mb-2">${title}</h5>
     <p class="text-muted">${body}</p>
   `;
+}
+
+function renderGalleryStrip(items) {
+  const container = document.getElementById("gallery-track");
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = "<div class=\"gallery-pill\">Belum ada galeri</div>";
+    return;
+  }
+
+  const list = items.slice(0, 3);
+  const pills = list
+    .map((item) => {
+      const title = item.judul || item.title || "Foto Desa";
+      const image = item.gambar_url || item.image_url || "";
+      const style = image ? `style="background-image: url('${image}')"` : "";
+      const className = image ? "gallery-pill has-image" : "gallery-pill";
+      return `<div class="${className}" ${style}><span class="gallery-title">${title}</span></div>`;
+    })
+    .join("");
+
+  container.innerHTML = `
+    <button class="nav-circle" aria-label="Galeri sebelumnya">&lt;</button>
+    ${pills}
+    <button class="nav-circle" aria-label="Galeri berikutnya">&gt;</button>
+  `;
+}
+
+function renderUmkmHighlight(items) {
+  const container = document.getElementById("umkm-highlight");
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = "<div class=\"col-12 text-muted\">Data UMKM belum tersedia.</div>";
+    return;
+  }
+
+  const list = items.slice(0, 3);
+  container.innerHTML = list
+    .map((item) => {
+      const title = item.judul || item.title || item.nama || item.name || "UMKM";
+      return `
+        <div class="col-md-4">
+          <div class="pill-card">${title}</div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderUmkmGrid(items) {
+  const container = document.getElementById("umkm-grid");
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = "<div class=\"col-12 text-muted\">Data UMKM belum tersedia.</div>";
+    return;
+  }
+
+  const list = items.slice(0, 9);
+  container.innerHTML = list
+    .map((item) => {
+      const title = item.judul || item.title || item.nama || item.name || "UMKM";
+      return `
+        <div class="col-6 col-md-4">
+          <div class="umkm-card">
+            <div class="umkm-card-title">${title}</div>
+            <button class="btn umkm-detail">Detail umkm</button>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
 }
 
 function renderWeather(data) {
@@ -401,7 +519,9 @@ async function loadPerangkat() {
 // Load gallery data from the backend and render cards.
 async function loadGaleri() {
   if (!document.getElementById("galeri-list") && !document.getElementById("galeri-preview")) {
-    return;
+    if (!document.getElementById("gallery-track") && !document.getElementById("umkm-grid")) {
+      return;
+    }
   }
 
   if (document.getElementById("galeri-list")) {
@@ -421,6 +541,8 @@ async function loadGaleri() {
     if (document.getElementById("galeri-preview")) {
       renderGaleri(data, "galeri-preview", 6);
     }
+    renderGalleryStrip(data);
+    renderUmkmGrid(data);
   } catch (error) {
     console.error("API error:", error);
     if (document.getElementById("galeri-list")) {
@@ -429,13 +551,23 @@ async function loadGaleri() {
     if (document.getElementById("galeri-preview")) {
       setListError("galeri-preview", "Galeri belum dapat dimuat.");
     }
+    if (document.getElementById("gallery-track")) {
+      document.getElementById("gallery-track").innerHTML =
+        "<div class=\"gallery-pill\">Galeri belum dapat dimuat.</div>";
+    }
+    if (document.getElementById("umkm-grid")) {
+      document.getElementById("umkm-grid").innerHTML =
+        "<div class=\"col-12 text-muted\">Galeri belum dapat dimuat.</div>";
+    }
   }
 }
 
 // Load profile data from the backend and render cards.
 async function loadProfil() {
   if (!document.getElementById("profil-list") && !document.getElementById("about-content")) {
-    return;
+    if (!document.getElementById("about-text") && !document.getElementById("tentang-cards")) {
+      return;
+    }
   }
 
   if (document.getElementById("profil-list")) {
@@ -452,6 +584,7 @@ async function loadProfil() {
     renderProfil(data);
     renderProfilHighlights(data);
     renderAboutSection(data);
+    renderTentangSection(data);
   } catch (error) {
     console.error("API error:", error);
     if (document.getElementById("profil-list")) {
@@ -460,14 +593,34 @@ async function loadProfil() {
     if (document.getElementById("about-content")) {
       setBlockError("about-content", "Profil desa belum dapat dimuat.");
     }
+    if (document.getElementById("about-text")) {
+      document.getElementById("about-text").textContent =
+        "Profil desa belum dapat dimuat.";
+    }
+  }
+}
+
+async function loadUmkmHighlight() {
+  if (!document.getElementById("umkm-highlight")) {
+    return;
+  }
+
+  try {
+    const data = await fetchJson("/api/berita");
+    renderUmkmHighlight(data);
+  } catch (error) {
+    console.error("API error:", error);
+    document.getElementById("umkm-highlight").innerHTML =
+      "<div class=\"col-12 text-muted\">Data UMKM belum dapat dimuat.</div>";
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadBerita();
-  loadPerangkat();
   loadGaleri();
   loadProfil();
+  loadUmkmHighlight();
+  loadBerita();
+  loadPerangkat();
   loadMap();
   loadWeather();
   startClock();

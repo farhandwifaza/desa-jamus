@@ -476,6 +476,30 @@ section[id] {
   font-weight: 600;
   color: #5e4e4a;
   box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.gallery-pill.has-image {
+  color: #ffffff;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.gallery-pill.has-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.4));
+}
+
+.gallery-pill.has-image .gallery-title {
+  position: relative;
+  z-index: 1;
 }
 
 .nav-circle {
